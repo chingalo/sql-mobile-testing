@@ -4,7 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
+
 // 'starter.controllers' is found in controllers.js
+var db = null;
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
@@ -24,7 +26,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
-      var db = window.sqlitePlugin.openDatabase({name: "my.db"});
+      db = window.sqlitePlugin.openDatabase({name: "my.db"});
       var data = {id:2,name:'joseph'};
       db.transaction(function(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS test_table');
@@ -38,21 +40,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 
       });
-      db.transaction(function(tx) {
-        tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
-      });
-
-      function querySuccess(tx, results) {
-        var len = results.rows.length;
-        alert("There are : " + len + " rows found.");
-        alert('all data : ' + JSON.stringify(results));
-        for (var i=0; i<len; i++){
-          alert( " Data =  " + JSON.stringify(results.rows.item(i).data));
-        }
-      }
-      function errorCB(er){
-        alert('err : ' + JSON.stringify(er));
-      }
     }
 
   });

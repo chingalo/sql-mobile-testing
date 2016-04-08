@@ -1,6 +1,20 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', function($scope) {
+
+  db.transaction(function(tx) {
+    tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
+  });
+  $scope.data = [];
+  function querySuccess(tx, results) {
+    for (var i=0; i<results.rows.length; i++){
+      data.push(results.rows.item(i).data);
+    }
+  }
+  function errorCB(er){
+    alert('err : ' + JSON.stringify(er));
+  }
+})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
