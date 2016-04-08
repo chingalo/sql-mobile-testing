@@ -31,7 +31,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
 
         tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
-          alert("insertId: " + res.insertId + ' data : '+res);
+          alert("insertId: " + res.insertId + ' data : '+JSON.stringify(res));
 
 
           db.transaction(function(tx) {
@@ -44,18 +44,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }, function(e) {
           alert.log("ERROR: " + e.message);
         });
-        tx.executeSql("select * test_table;",[],querySuccess,errorCB);
+        tx.executeSql("select data,id,data_num from test_table;",[],querySuccess,errorCB);
       });
 
       function querySuccess(tx, results) {
         var len = results.rows.length;
         alert("There are : " + len + " rows found.");
         for (var i=0; i<len; i++){
-          alert("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+          alert("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + JSON.stringify(results.rows.item(i).data));
         }
       }
       function errorCB(er){
-        alert(er);
+        alert('err : ' + JSON.stringify(er));
       }
     }
 
