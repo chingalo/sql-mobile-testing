@@ -30,15 +30,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       db.transaction(function(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS test_table');
         tx.executeSql('CREATE TABLE IF NOT EXISTS person (id integer primary key, data LONGTEXT)');
-
       });
-
     }
-
   });
 })
   .controller('mainCtr',function($scope){
-
     $scope.dataLoaded= [];
     $scope.person = "";
     $scope.loadData();
@@ -46,10 +42,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       getAllData("person");
     };
 
-
     $scope.addData = function(data){
       insertData('person',data);
+      $scope.loadData();
     };
+
     function getAllData(tableName){
       db = window.sqlitePlugin.openDatabase({name: "my.db"});
       db.transaction(function(tx) {
@@ -69,9 +66,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
     function insertData(tableName, data){
       db.transaction(function(tx) {
-        var query = "INSERT INTO "+tableName+" (data) VALUES (?)"
+        var query = "INSERT INTO "+tableName+" (data) VALUES (?)";
         tx.executeSql(query, [JSON.stringify(data)], function(tx, res) {
           alert("insertId: " + res.insertId );
+
         }, function(e) {
           alert.log("ERROR: " + e);
         });
