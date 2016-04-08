@@ -28,7 +28,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
      db = window.sqlitePlugin.openDatabase({name: "my.db"});
       var data = {id:2,name:'joseph'};
       db.transaction(function(tx) {
-        //tx.executeSql('DROP TABLE IF EXISTS test_table');
         tx.executeSql('CREATE TABLE IF NOT EXISTS person (id integer primary key, data LONGTEXT)');
       });
     }
@@ -37,7 +36,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   .controller('mainCtr',function($scope){
     $scope.dataLoaded= [];
     $scope.person = "";
-    $scope.loadData();
     $scope.loadData = function(){
       getAllData("person");
     };
