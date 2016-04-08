@@ -74,7 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       alert("There are : " + len + " rows found.");
       var data = [];
       for (var i=0; i<len; i++){
-        data.push(eval("("+results.rows.item(i).data+")"));
+        data.push(JSON.parse(results.rows.item(i).data));
       }
       alert( " Data on controller loading =  " + JSON.stringify(data));
       $scope.dataLoaded = data;
