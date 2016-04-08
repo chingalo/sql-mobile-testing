@@ -38,6 +38,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
           alert("insertId: " + res.insertId + " -- probably 1");
           alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
+          alert("On insert : " + JSON.stringify(res));
 
           db.transaction(function(tx) {
             tx.executeSql("select count(id) as cnt from test_table;", [], function(tx, res) {
