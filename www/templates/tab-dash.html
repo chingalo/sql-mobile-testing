@@ -1,25 +1,34 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
     <h2>Welcome to Ionic</h2>
-    <button class="button button-balanced button-full" ng-click="loadData()">Load</button>
-    <div class="row" ng-repeat="data in dataLoaded">
-      <div class="col col-10">
-        {{data.id}}
-      </div>
-      <div class="col col-90">
-        {{data.name}}
-      </div>
-    </div>
+
     <div class="row">
-      <div class="col col-80">
-        <label class="item item-input item-floating-label">
-          <span class="input-label">First Name</span>
+      <div class="col col-100">
+        <label class="item item-input">
           <input type="text" placeholder="Name" ng-model="data.person">
         </label>
       </div>
-      <div class="col col-20">
-        <button class="button button-balanced button-full" ng-click="addData()">Add</button>
+    </div>
+   <div class="row">
+     <div class="col col-100">
+       <button class="button button-balanced button-full" ng-click="addData()">Add</button>
+     </div>
+   </div>
+
+    <div class="row">
+      <div class="col col-100">
+        <button class="button button-balanced button-full" ng-click="loadData()">Load</button>
+        <div class="item-text-wrap">
+          <div class="row" ng-repeat="data in dataLoaded">
+            <div class="col col-10">
+              {{data.id}}
+            </div>
+            <div class="col col-90">
+              {{data.name}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    {{ }}  </ion-content>
+  </ion-content>
 </ion-view>

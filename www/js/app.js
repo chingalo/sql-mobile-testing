@@ -41,15 +41,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $scope.data = {};
 
     $scope.addData = function(){
+      var tableName = 'person';
       var name = $scope.data.person;
       $scope.data = {};
       var data = {id:$scope.dataLoaded.length + 1,name: name};
-      insertData('person',data);
-
+      insertData(tableName,data);
+      getAllData(tableName);
     };
 
     function getAllData(tableName){
-      alert(tableName);
       db = window.sqlitePlugin.openDatabase({name: "my.db"});
       db.transaction(function(tx) {
         var query = "select * from "+tableName+";";
@@ -67,12 +67,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       });
     }
     function insertData(tableName, data){
-      alert(tableName + " : " +JSON.stringify(data));
       db.transaction(function(tx) {
         var query = "INSERT INTO "+tableName+" (data) VALUES (?)";
         tx.executeSql(query, [JSON.stringify(data)], function(tx, res) {
-          alert("insertId: " + res.insertId + ' data : '+ data);
-
+          //success adding data
         }, function(e) {
           alert.log("ERROR: " + e);
         });
