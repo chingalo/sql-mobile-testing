@@ -6,7 +6,6 @@
 // 'starter.services' is found in services.js
 
 // 'starter.controllers' is found in controllers.js
-var db = null;
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
@@ -26,7 +25,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
-      db = window.sqlitePlugin.openDatabase({name: "my.db"});
+      var db = window.sqlitePlugin.openDatabase({name: "my.db"});
       var data = {id:2,name:'joseph'};
       db.transaction(function(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS test_table');

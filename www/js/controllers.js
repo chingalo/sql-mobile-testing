@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {
-
+  var db = window.sqlitePlugin.openDatabase({name: "my.db"});
   db.transaction(function(tx) {
     tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
   });
