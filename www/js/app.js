@@ -31,20 +31,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
 
         tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
-          alert("insertId: " + res.insertId + ' data : '+JSON.stringify(res));
-
-
-          db.transaction(function(tx) {
-            tx.executeSql("select count(id) as cnt from test_table;", [], function(tx, res) {
-              alert("res.rows.length: " + res.rows.length + " -- should be 1");
-            });
-          });
-
+          alert("insertId: " + res.insertId );
         }, function(e) {
           alert.log("ERROR: " + e.message);
         });
 
-        tx.executeSql("select data,id,data_num from test_table;",[],querySuccess,errorCB);
+
+      });
+      db.transaction(function(tx) {
+        tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
       });
 
       function querySuccess(tx, results) {
