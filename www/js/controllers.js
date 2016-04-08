@@ -10,6 +10,7 @@ angular.module('starter.controllers', [])
     for (var i=0; i<results.rows.length; i++){
       $scope.data.push(results.rows.item(i).data);
     }
+    alert(JSON.stringify($scope.data));
   }
   function errorCB(er){
     alert('err : ' + JSON.stringify(er));
