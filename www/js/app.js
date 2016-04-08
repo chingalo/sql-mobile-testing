@@ -27,7 +27,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       var db = window.sqlitePlugin.openDatabase({name: "my.db"});
 
       db.transaction(function(tx) {
-        tx.executeSql('DROP TABLE IF EXISTS test_table');
+        //tx.executeSql('DROP TABLE IF EXISTS test_table');
         tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
 
         // demonstrate PRAGMA:
@@ -43,6 +43,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             tx.executeSql("select count(id) as cnt from test_table;", [], function(tx, res) {
               alert("res.rows.length: " + res.rows.length + " -- should be 1");
               alert("res.rows.item(0).cnt: " + res.rows.item(0).cnt + " -- should be 1");
+              alert('return data : ' + JSON.stringify(res));
             });
           });
 
