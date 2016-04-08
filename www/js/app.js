@@ -61,6 +61,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 })
   .controller('mainCtr',function($scope){
 
+    $scope.dataLoaded= [];
     $scope.load = function(){
       db = window.sqlitePlugin.openDatabase({name: "my.db"});
       db.transaction(function(tx) {
@@ -73,9 +74,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       alert("There are : " + len + " rows found.");
       var data = [];
       for (var i=0; i<len; i++){
-        data.push(results.rows.item(i).data);
+        data.push(eval("("+results.rows.item(i).data+")"));
       }
       alert( " Data on controller loading =  " + JSON.stringify(data));
+      $scope.dataLoaded = data;
     }
     function errorCB(er){
       alert('err : ' + JSON.stringify(er));
