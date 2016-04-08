@@ -68,7 +68,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       });
     };
 
-
     function querySuccess(tx, results) {
       var len = results.rows.length;
       alert("There are : " + len + " rows found.");
