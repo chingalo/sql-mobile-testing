@@ -26,7 +26,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
      db = window.sqlitePlugin.openDatabase({name: "my.db"});
-      var data = {id:2,name:'joseph'};
+
       db.transaction(function(tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS person (id integer primary key, data LONGTEXT)');
       });
@@ -40,12 +40,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       getAllData("person");
     };
 
-    $scope.addData = function(data){
+    $scope.addData = function(){
+      var name = $scope.person;
+      var data = {id:$scope.dataLoaded.length + 1,name: name};
       insertData('person',data);
-      $scope.loadData();
+      $scope.person = "";
     };
 
     function getAllData(tableName){
+      alert(tableName);
       db = window.sqlitePlugin.openDatabase({name: "my.db"});
       db.transaction(function(tx) {
         var query = "select * from "+tableName+";";
@@ -66,7 +69,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       db.transaction(function(tx) {
         var query = "INSERT INTO "+tableName+" (data) VALUES (?)";
         tx.executeSql(query, [JSON.stringify(data)], function(tx, res) {
-          alert("insertId: " + res.insertId );
+          alert("insertId: " + res.insertId + ' data : '+ data);
 
         }, function(e) {
           alert.log("ERROR: " + e);
