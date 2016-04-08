@@ -27,10 +27,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       var db = window.sqlitePlugin.openDatabase({name: "my.db"});
 
       db.transaction(function(tx) {
-        //tx.executeSql('DROP TABLE IF EXISTS test_table');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
+        tx.executeSql('DROP TABLE IF EXISTS test_table');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data BLOB)');
 
-        tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
+        tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", [{id:2,name:'joseph'}], function(tx, res) {
           alert("insertId: " + res.insertId );
         }, function(e) {
           alert.log("ERROR: " + e.message);
