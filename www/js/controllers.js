@@ -2,10 +2,13 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {
   var db = window.sqlitePlugin.openDatabase({name: "my.db"});
-  db.transaction(function(tx) {
-    tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
-  });
   $scope.data = [];
+  $scope.loadData();
+  $scope.loadData = function(){
+    db.transaction(function(tx) {
+      tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
+    });
+  };
   function querySuccess(tx, results) {
     for (var i=0; i<results.rows.length; i++){
       $scope.data.push(results.rows.item(i).data);
