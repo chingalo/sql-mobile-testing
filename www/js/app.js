@@ -50,6 +50,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           alert.log("ERROR: " + e.message);
         });
 
+
+      });
+      db.transaction(function(tx) {
         tx.executeSql("SELECT * FROM test_table;", [], function(tx, res) {
           alert('return data : ' + JSON.stringify(res));
         },function(e){
