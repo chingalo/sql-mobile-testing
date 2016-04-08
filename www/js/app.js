@@ -42,14 +42,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
           db.transaction(function(tx) {
             tx.executeSql("select count(id) as cnt from test_table;", [], function(tx, res) {
-              alert("res.rows.length: " + res.rows.length + " -- should be 1");
-              alert("res.rows.item(0).cnt: " + res.rows.item(0).cnt + " -- should be 1");
               alert('return data : ' + JSON.stringify(res));
             });
           });
 
         }, function(e) {
           alert.log("ERROR: " + e.message);
+        });
+
+        tx.executeSql("SELECT * FROM test_table;", [], function(tx, res) {
+          alert('return data : ' + JSON.stringify(res));
+        },function(e){
+          alert('error : ' + JSON.stringify(e))
         });
       });
     }
