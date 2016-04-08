@@ -29,31 +29,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       var data = {id:2,name:'joseph'};
       db.transaction(function(tx) {
         //tx.executeSql('DROP TABLE IF EXISTS test_table');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data LONGTEXT)');
-
-        tx.executeSql("INSERT INTO test_table (data) VALUES (?)", [JSON.stringify(data)], function(tx, res) {
-          alert("insertId: " + res.insertId );
-        }, function(e) {
-          alert.log("ERROR: " + e.message);
-        });
-
+        tx.executeSql('CREATE TABLE IF NOT EXISTS person (id integer primary key, data LONGTEXT)');
 
       });
-      db.transaction(function(tx) {
-        tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
-      });
 
-      function querySuccess(tx, results) {
-        var len = results.rows.length;
-        var data = [];
-        for (var i=0; i<len; i++){
-          data.push(results.rows.item(i).data);
-        }
-        alert( " on run method : Data =  " + JSON.stringify(data));
-      }
-      function errorCB(er){
-        alert('err : ' + JSON.stringify(er));
-      }
     }
 
   });
@@ -61,26 +40,44 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   .controller('mainCtr',function($scope){
 
     $scope.dataLoaded= [];
-    $scope.load = function(){
-      db = window.sqlitePlugin.openDatabase({name: "my.db"});
-      db.transaction(function(tx) {
-        tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
-      });
+    $scope.person = "";
+    $scope.loadData();
+    $scope.loadData = function(){
+      getAllData("person");
     };
 
-    function querySuccess(tx, results) {
-      var len = results.rows.length;
-      var data = [];
-      for (var i=0; i<len; i++){
-        data.push(eval("(" + results.rows.item(i).data + ")"));
-      }
-      alert( " Data on controller loading =  " + JSON.stringify(data));
-      $scope.dataLoaded = data;
-      $scope.$apply();
+
+    $scope.addData = function(data){
+      insertData('person',data);
+    };
+    function getAllData(tableName){
+      db = window.sqlitePlugin.openDatabase({name: "my.db"});
+      db.transaction(function(tx) {
+        var query = "select * from "+tableName+";";
+        tx.executeSql(query,[],function(tx, results){
+          var len = results.rows.length;
+          var data = [];
+          for (var i=0; i<len; i++){
+            data.push(eval("(" + results.rows.item(i).data + ")"));
+          }
+          $scope.dataLoaded = data;
+          $scope.$apply();
+        },function(error){
+          alert('err : ' + JSON.stringify(error));
+        });
+      });
     }
-    function errorCB(er){
-      alert('err : ' + JSON.stringify(er));
+    function insertData(tableName, data){
+      db.transaction(function(tx) {
+        var query = "INSERT INTO "+tableName+" (data) VALUES (?)"
+        tx.executeSql(query, [JSON.stringify(data)], function(tx, res) {
+          alert("insertId: " + res.insertId );
+        }, function(e) {
+          alert.log("ERROR: " + e);
+        });
+      });
     }
+
   })
 .config(function($stateProvider, $urlRouterProvider) {
 
