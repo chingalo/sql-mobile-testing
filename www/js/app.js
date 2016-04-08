@@ -5,6 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+var db = null;
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
@@ -25,6 +26,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
      db = window.sqlitePlugin.openDatabase({name: "my.db"});
+
       db.transaction(function(tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS person (id integer primary key, data LONGTEXT)');
       });
@@ -34,9 +36,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   .controller('mainCtr',function($scope){
     $scope.dataLoaded= [];
     $scope.loadData = function(){
-      var tableName = 'person';
-      $scope.dataLoaded = getAllData(tableName);
-      $scope.$apply();
+      getAllData("person");
     };
     $scope.data = {};
 
@@ -46,11 +46,36 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       $scope.data = {};
       var data = {id:$scope.dataLoaded.length + 1,name: name};
       insertData(tableName,data);
-      $scope.dataLoaded = getAllData(tableName);
-      $scope.$apply();
+      getAllData(tableName);
     };
 
-
+    function getAllData(tableName){
+      db = window.sqlitePlugin.openDatabase({name: "my.db"});
+      db.transaction(function(tx) {
+        var query = "select * from "+tableName+";";
+        tx.executeSql(query,[],function(tx, results){
+          var len = results.rows.length;
+          var data = [];
+          for (var i=0; i<len; i++){
+            data.push(eval("(" + results.rows.item(i).data + ")"));
+          }
+          $scope.dataLoaded = data;
+          $scope.$apply();
+        },function(error){
+          alert('err : ' + JSON.stringify(error));
+        });
+      });
+    }
+    function insertData(tableName, data){
+      db.transaction(function(tx) {
+        var query = "INSERT INTO "+tableName+" (data) VALUES (?)";
+        tx.executeSql(query, [JSON.stringify(data)], function(tx, res) {
+          //success adding data
+        }, function(e) {
+          alert.log("ERROR: " + e);
+        });
+      });
+    }
 
   })
 .config(function($stateProvider, $urlRouterProvider) {
