@@ -30,35 +30,33 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         //tx.executeSql('DROP TABLE IF EXISTS test_table');
         tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
 
-        // demonstrate PRAGMA:
-        db.executeSql("pragma table_info (test_table);", [], function(res) {
-          alert("PRAGMA res: " + JSON.stringify(res));
-        });
-
         tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
-          alert("insertId: " + res.insertId + " -- probably 1");
-          alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
-          alert("On insert : " + JSON.stringify(res));
+          alert("insertId: " + res.insertId + ' data : '+res);
+
 
           db.transaction(function(tx) {
             tx.executeSql("select count(id) as cnt from test_table;", [], function(tx, res) {
-              alert('return data : ' + JSON.stringify(res));
+              alert("res.rows.length: " + res.rows.length + " -- should be 1");
+
             });
           });
 
         }, function(e) {
           alert.log("ERROR: " + e.message);
         });
-
-
+        tx.executeSql("select * test_table;",[],querySuccess,errorCB);
       });
-      db.transaction(function(tx) {
-        tx.executeSql("SELECT * FROM test_table;", [], function(tx, res) {
-          alert('return data : ' + JSON.stringify(res));
-        },function(e){
-          alert('error : ' + JSON.stringify(e))
-        });
-      });
+
+      function querySuccess(tx, results) {
+        var len = results.rows.length;
+        alert("There are : " + len + " rows found.");
+        for (var i=0; i<len; i++){
+          alert("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+        }
+      }
+      function errorCB(er){
+        alert(er);
+      }
     }
 
   });
