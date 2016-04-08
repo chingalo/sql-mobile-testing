@@ -4,28 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
-
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter', 'starter.services'])
-  .controller('DashCtrl', function($scope) {
-    var db = window.sqlitePlugin.openDatabase({name: "my.db"});
-    $scope.data = [];
-    $scope.loadData();
-    $scope.loadData = function(){
-      db.transaction(function(tx) {
-        tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
-      });
-    };
-    function querySuccess(tx, results) {
-      for (var i=0; i<results.rows.length; i++){
-        $scope.data.push(results.rows.item(i).data);
-      }
-      alert(JSON.stringify($scope.data));
-    }
-    function errorCB(er){
-      alert('err : ' + JSON.stringify(er));
-    }
-  })
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -58,6 +38,22 @@ angular.module('starter', ['ionic', 'starter', 'starter.services'])
 
 
       });
+      db.transaction(function(tx) {
+        tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
+      });
+
+      function querySuccess(tx, results) {
+        var len = results.rows.length;
+        alert("There are : " + len + " rows found.");
+        var data = [];
+        for (var i=0; i<len; i++){
+          data.push(results.rows.item(i).data);
+        }
+        alert( " Data =  " + JSON.stringify(data));
+      }
+      function errorCB(er){
+        alert('err : ' + JSON.stringify(er));
+      }
     }
 
   });
