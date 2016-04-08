@@ -35,16 +35,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 })
   .controller('mainCtr',function($scope){
     $scope.dataLoaded= [];
-    $scope.person = "";
     $scope.loadData = function(){
       getAllData("person");
     };
+    $scope.data = {};
 
     $scope.addData = function(){
-      var name = $scope.person;
+      var name = $scope.data.person;
+      $scope.data = {};
       var data = {id:$scope.dataLoaded.length + 1,name: name};
       insertData('person',data);
-      $scope.person = "";
+
     };
 
     function getAllData(tableName){
@@ -66,7 +67,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       });
     }
     function insertData(tableName, data){
-      alert(tableName + " : " +data);
+      alert(tableName + " : " +JSON.stringify(data));
       db.transaction(function(tx) {
         var query = "INSERT INTO "+tableName+" (data) VALUES (?)";
         tx.executeSql(query, [JSON.stringify(data)], function(tx, res) {
