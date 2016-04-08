@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
   $scope.data = [];
   function querySuccess(tx, results) {
     for (var i=0; i<results.rows.length; i++){
-      data.push(results.rows.item(i).data);
+      $scope.data.push(results.rows.item(i).data);
     }
   }
   function errorCB(er){
