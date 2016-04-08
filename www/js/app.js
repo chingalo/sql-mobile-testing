@@ -45,7 +45,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
       function querySuccess(tx, results) {
         var len = results.rows.length;
-        alert("There are : " + len + " rows found.");
         var data = [];
         for (var i=0; i<len; i++){
           data.push(results.rows.item(i).data);
@@ -71,13 +70,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     function querySuccess(tx, results) {
       var len = results.rows.length;
-      alert("There are : " + len + " rows found on loading");
       var data = [];
       for (var i=0; i<len; i++){
-        data.push(results.rows.item(i).data);
+        data.push(eval("(" + results.rows.item(i).data + ")"));
       }
       alert( " Data on controller loading =  " + JSON.stringify(data));
       $scope.dataLoaded = data;
+      $scope.$apply();
     }
     function errorCB(er){
       alert('err : ' + JSON.stringify(er));
