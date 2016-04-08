@@ -66,6 +66,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       });
     }
     function insertData(tableName, data){
+      alert(tableName + " : " +data);
       db.transaction(function(tx) {
         var query = "INSERT INTO "+tableName+" (data) VALUES (?)";
         tx.executeSql(query, [JSON.stringify(data)], function(tx, res) {
