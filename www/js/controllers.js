@@ -1,24 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter', [])
 
-.controller('DashCtrl', function($scope) {
-  var db = window.sqlitePlugin.openDatabase({name: "my.db"});
-  $scope.data = [];
-  $scope.loadData();
-  $scope.loadData = function(){
-    db.transaction(function(tx) {
-      tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
-    });
-  };
-  function querySuccess(tx, results) {
-    for (var i=0; i<results.rows.length; i++){
-      $scope.data.push(results.rows.item(i).data);
-    }
-    alert(JSON.stringify($scope.data));
-  }
-  function errorCB(er){
-    alert('err : ' + JSON.stringify(er));
-  }
-})
+
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called

@@ -6,7 +6,26 @@
 // 'starter.services' is found in services.js
 
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter', 'starter.services'])
+  .controller('DashCtrl', function($scope) {
+    var db = window.sqlitePlugin.openDatabase({name: "my.db"});
+    $scope.data = [];
+    $scope.loadData();
+    $scope.loadData = function(){
+      db.transaction(function(tx) {
+        tx.executeSql("select * from test_table;",[],querySuccess,errorCB);
+      });
+    };
+    function querySuccess(tx, results) {
+      for (var i=0; i<results.rows.length; i++){
+        $scope.data.push(results.rows.item(i).data);
+      }
+      alert(JSON.stringify($scope.data));
+    }
+    function errorCB(er){
+      alert('err : ' + JSON.stringify(er));
+    }
+  })
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
