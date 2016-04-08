@@ -28,7 +28,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
       db.transaction(function(tx) {
         tx.executeSql('DROP TABLE IF EXISTS test_table');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data BLOB)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data TEXT)');
 
         tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", [{id:2,name:'joseph'}], function(tx, res) {
           alert("insertId: " + res.insertId );
