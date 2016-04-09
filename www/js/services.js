@@ -8,7 +8,7 @@ angular.module('starter.services', [])
         var defer = $q.defer();
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
         db.transaction(function (tx) {
-          var query = "select * from " + tableName + ";";
+          var query = "SELECT * FROM " + tableName + ";";
           tx.executeSql(query, [], function (tx, results) {
             var len = results.rows.length;
             var data = [];
@@ -43,6 +43,32 @@ angular.module('starter.services', [])
           var query = "SELECT * FROM " + tableName + " WHERE id = '"+id+" ';";
           tx.executeSql(query, [], function (tx, results) {
             defer.resolve(eval("(" + results.rows.item(0).data + ")"));
+          }, function (error) {
+            defer.reject(error);
+          });
+        });
+        return defer.promise;
+      },
+      deleteData : function(tableName,id){
+        var defer = $q.defer();
+        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db.transaction(function (tx) {
+          var query = "DELETE FROM " + tableName + " WHERE id = '"+id+" ';";
+          tx.executeSql(query, [], function (tx) {
+            defer.resolve();
+          }, function (error) {
+            defer.reject(error);
+          });
+        });
+        return defer.promise;
+      },
+      updateData : function(tableName,id,data){
+        var defer = $q.defer();
+        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db.transaction(function (tx) {
+          var query = "UPDATE " + tableName + " SET (data) = (?) WHERE id = '"+id+" ';";
+          tx.executeSql(query, [JSON.stringify(data)], function (tx) {
+            defer.resolve();
           }, function (error) {
             defer.reject(error);
           });

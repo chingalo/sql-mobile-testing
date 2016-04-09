@@ -55,18 +55,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       },function(error){
         alert('error : ' + JSON.stringify(error));
       });
-      sqlLiteServices.getAllData(tableName).then(function(data){
-        $scope.dataLoaded = data;
+      $scope.loadData();
+    };
+    var tableName = "person";
+    $scope.delete = function(person){
+      sqlLiteServices.deleteData(tableName,person.id).then(function(){
+        alert('deleted success');
+        $scope.loadData();
       },function(error){
         alert('error : ' + JSON.stringify(error));
       });
     };
-    $scope.delete = function(person){
-      alert('Delete : ' + JSON.stringify(person));
-    };
     $scope.update = function(id){
-      alert('update : ' + id);
-      sqlLiteServices.getData().then(function(data){
+      var tableName = "person";
+      sqlLiteServices.getData(tableName,(id + 1)).then(function(data){
         alert('update data ' + JSON.stringify(data));
       },function(error){
         alert('error : ' + JSON.stringify(error));
