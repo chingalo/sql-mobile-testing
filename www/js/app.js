@@ -47,18 +47,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     $scope.addData = function () {
       var tableName = 'person';
-      $scope.data = {};
-      if (angular.isDefined($scope.data.person)) {
+
+      if ($scope.data.person) {
         var data = {id: $scope.dataLoaded.length + 1, name: $scope.data.person};
         sqlLiteServices.insertData(tableName, data).then(function (data) {
+          $scope.data = {};
         }, function (error) {
           alert('error : ' + JSON.stringify(error));
+
         });
       }
-      $scope.loadData();
+      //$scope.loadData();
     };
-    var tableName = "person";
+
     $scope.delete = function (person) {
+      var tableName = "person";
       sqlLiteServices.deleteData(tableName, person.id).then(function () {
         alert('deleted success');
         $scope.loadData();
