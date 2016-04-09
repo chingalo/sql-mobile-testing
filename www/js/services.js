@@ -35,6 +35,19 @@ angular.module('starter.services', [])
           });
         });
         return defer.promise;
+      },
+      getData : function(tableName,id){
+        var defer = $q.defer();
+        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db.transaction(function (tx) {
+          var query = "SELECT * FROM " + tableName + " WHERE id = '"+id+" ';";
+          tx.executeSql(query, [], function (tx, results) {
+            defer.resolve(eval("(" + results.rows.item(0).data + ")"));
+          }, function (error) {
+            defer.reject(error);
+          });
+        });
+        return defer.promise;
       }
     };
     return sqlLiteServices;
