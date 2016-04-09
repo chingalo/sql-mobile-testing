@@ -33,10 +33,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
 })
-  .controller('mainCtr',function($scope){
+  .controller('mainCtr',function($scope,sqlLiteServices){
     $scope.dataLoaded= [];
     $scope.loadData = function(){
-      getAllData("person");
+      var tableName = "person";
+      sqlLiteServices.getAllData(tableName).then(function(data){
+        $scope.dataLoaded = data;
+      },function(error){
+        alert('error : ' + JSON.stringify(error));
+      });
     };
     $scope.data = {};
 
@@ -45,37 +50,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       var name = $scope.data.person;
       $scope.data = {};
       var data = {id:$scope.dataLoaded.length + 1,name: name};
-      insertData(tableName,data);
-      getAllData(tableName);
+      sqlLiteServices.insertData(tableName,data).then(function(data){
+
+      },function(error){
+        alert('error : ' + JSON.stringify(error));
+      });
+      sqlLiteServices.getAllData(tableName).then(function(data){
+        $scope.dataLoaded = data;
+      },function(error){
+        alert('error : ' + JSON.stringify(error));
+      });
+    };
+    $scope.delete = function(person){
+      alert('Update : ' + JSON.stringify(person))
+    };
+    $scope.delete = function(id){
+      alert('delete : ' + id)
     };
 
-    function getAllData(tableName){
-      db = window.sqlitePlugin.openDatabase({name: "my.db"});
-      db.transaction(function(tx) {
-        var query = "select * from "+tableName+";";
-        tx.executeSql(query,[],function(tx, results){
-          var len = results.rows.length;
-          var data = [];
-          for (var i=0; i<len; i++){
-            data.push(eval("(" + results.rows.item(i).data + ")"));
-          }
-          $scope.dataLoaded = data;
-          $scope.$apply();
-        },function(error){
-          alert('err : ' + JSON.stringify(error));
-        });
-      });
-    }
-    function insertData(tableName, data){
-      db.transaction(function(tx) {
-        var query = "INSERT INTO "+tableName+" (data) VALUES (?)";
-        tx.executeSql(query, [JSON.stringify(data)], function(tx, res) {
-          //success adding data
-        }, function(e) {
-          alert.log("ERROR: " + e);
-        });
-      });
-    }
 
   })
 .config(function($stateProvider, $urlRouterProvider) {
