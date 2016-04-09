@@ -62,10 +62,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       });
     };
     $scope.delete = function(person){
-      alert('Update : ' + JSON.stringify(person))
+      alert('Delete : ' + JSON.stringify(person))
     };
-    $scope.delete = function(id){
-      alert('delete : ' + id)
+    $scope.update = function(id){
+      alert('update : ' + id)
     };
 
 
