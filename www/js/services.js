@@ -27,7 +27,7 @@ angular.module('starter.services', [])
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
         db.transaction(function (tx) {
           var query = "INSERT INTO " + tableName + " (id,data) VALUES (?,?)";
-          tx.executeSql(query, [id,JSON.stringify(data)], function (tx, res) {
+          tx.executeSql(query, [JSON.stringify(id),JSON.stringify(data)], function (tx, res) {
             //success adding data
             defer.resolve(res);
           }, function (e) {
