@@ -74,8 +74,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       var UpdatedData = person;
       UpdatedData.name = person.name + JSON.stringify(person.id);
       sqlLiteServices.getDataByAttribute(tableName,'id',JSON.stringify(person.id)).then(function (data) {
-        alert('atrribute values : ' + JSON.stringify(data));
-        sqlLiteServices.updateData(tableName, person.id, UpdatedData).then(function (data) {
+        alert('attribute values : ' + JSON.stringify(data));
+        sqlLiteServices.updateData(tableName, JSON.stringify(person.id), UpdatedData).then(function (data) {
           $scope.loadData();
         }, function (err) {
           alert('error : ' + JSON.stringify(err));
