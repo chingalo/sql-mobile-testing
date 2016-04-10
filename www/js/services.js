@@ -13,6 +13,7 @@ angular.module('starter.services', [])
             var len = results.rows.length;
             var data = [];
             for (var i = 0; i < len; i++) {
+              alert('data : ' + JSON.stringify(results.rows.item(i)));
               data.push(eval("(" + results.rows.item(i).data + ")"));
             }
             defer.resolve(data);
