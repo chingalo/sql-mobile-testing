@@ -22,12 +22,12 @@ angular.module('starter.services', [])
         });
         return defer.promise;
       },
-      insertData: function (tableName, data) {
+      insertData: function (tableName, data,id) {
         var defer = $q.defer();
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
         db.transaction(function (tx) {
-          var query = "INSERT INTO " + tableName + " (data) VALUES (?)";
-          tx.executeSql(query, [JSON.stringify(data)], function (tx, res) {
+          var query = "INSERT INTO " + tableName + " (id,data) VALUES (?,?)";
+          tx.executeSql(query, [id,JSON.stringify(data)], function (tx, res) {
             //success adding data
             defer.resolve(res);
           }, function (e) {
