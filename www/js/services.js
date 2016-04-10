@@ -79,8 +79,8 @@ angular.module('starter.services', [])
         var defer = $q.defer();
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
         db.transaction(function (tx) {
-          var query = "SELECT * FROM " + tableName + " WHERE ? = ?";
-          tx.executeSql(query, [attribute,value], function (tx, results) {
+          var query = "SELECT * FROM " + tableName + " WHERE "+attribute+" = ?";
+          tx.executeSql(query, [value], function (tx, results) {
             var len = results.rows.length;
             var data = [];
             for (var i = 0; i < len; i++) {
