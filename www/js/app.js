@@ -48,7 +48,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $scope.addData = function () {
       var tableName = 'person';
       if ($scope.data.person) {
-        var id = $scope.dataLoaded.length + 1;
+        var id = JSON.stringify($scope.dataLoaded.length + 1);
         var data = {id: id, name: $scope.data.person};
         sqlLiteServices.insertData(tableName,id,data).then(function (data) {
           alert("insertId: " + JSON.stringify(data) );
