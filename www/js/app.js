@@ -63,7 +63,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     $scope.delete = function (person) {
       var tableName = "person";
-      sqlLiteServices.deleteData(tableName, person.id).then(function () {
+      sqlLiteServices.deleteData(tableName, JSON.stringify(person.id)).then(function () {
         $scope.loadData();
       }, function (error) {
         alert('error : ' + JSON.stringify(error));
