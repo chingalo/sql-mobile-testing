@@ -68,7 +68,7 @@ angular.module('starter.services', [])
         db.transaction(function (tx) {
           var query = "UPDATE " + tableName + " SET data = ? WHERE id = '"+id+" ';";
           tx.executeSql(query, [JSON.stringify(data)], function (tx,ru) {
-            defer.resolve();
+            defer.resolve(ru);
           }, function (error) {
             defer.reject(error);
           });

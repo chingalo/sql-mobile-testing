@@ -75,11 +75,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       UpdatedData.name = person.name + JSON.stringify(person.id);
       sqlLiteServices.getData(tableName, (person.id)).then(function (data) {
         alert('You select :' + JSON.stringify(data));
-        sqlLiteServices.updateData(tableName, person.id, UpdatedData).then(function () {
-          alert('Success update');
+        sqlLiteServices.updateData(tableName, person.id, UpdatedData).then(function (data) {
+          alert('Success update ' + JSON.stringify(data));
           $scope.loadData();
-        }, function () {
-
+        }, function (err) {
+          alert('error : ' + JSON.stringify(err));
         });
       }, function (error) {
         alert('error : ' + JSON.stringify(error));
