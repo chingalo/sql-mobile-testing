@@ -66,8 +66,8 @@ angular.module('starter.services', [])
         var defer = $q.defer();
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
         db.transaction(function (tx) {
-          var query = "UPDATE " + tableName + " SET (data) = (?) WHERE id = '"+id+" ';";
-          tx.executeSql(query, [JSON.stringify(data)], function (tx) {
+          var query = "UPDATE " + tableName + " SET data = "+JSON.stringify(data)+" WHERE id = '"+id+" ';";
+          tx.executeSql(query, [], function (tx) {
             defer.resolve();
           }, function (error) {
             defer.reject(error);

@@ -57,7 +57,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
         });
       }
-      //$scope.loadData();
+      $scope.loadData();
     };
 
     $scope.delete = function (person) {
