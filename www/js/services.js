@@ -23,7 +23,7 @@ angular.module('starter.services', [])
         });
         return defer.promise;
       },
-      insertData: function (tableName, data,id) {
+      insertData: function (tableName,id,data) {
         var defer = $q.defer();
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
         db.transaction(function (tx) {
