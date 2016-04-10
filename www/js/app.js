@@ -28,7 +28,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
 
         db.transaction(function (tx) {
-          tx.executeSql('CREATE TABLE IF NOT EXISTS person (id INTEGER primary key, data LONGTEXT)');
+          tx.executeSql('CREATE TABLE IF NOT EXISTS person (id TEXT primary key, data LONGTEXT)');
         });
       }
     });
