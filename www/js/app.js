@@ -28,7 +28,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
 
         db.transaction(function (tx) {
-          tx.executeSql('CREATE TABLE IF NOT EXISTS person (id integer primary key, data LONGTEXT)');
+          tx.executeSql('CREATE TABLE IF NOT EXISTS person (id TEXT primary key, data LONGTEXT)');
         });
       }
     });
@@ -47,7 +47,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     $scope.addData = function () {
       var tableName = 'person';
-
       if ($scope.data.person) {
         var data = {id: $scope.dataLoaded.length + 1, name: $scope.data.person};
         sqlLiteServices.insertData(tableName, data).then(function (data) {
@@ -63,7 +62,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $scope.delete = function (person) {
       var tableName = "person";
       sqlLiteServices.deleteData(tableName, person.id).then(function () {
-        alert('deleted success');
         $scope.loadData();
       }, function (error) {
         alert('error : ' + JSON.stringify(error));
@@ -73,10 +71,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       var tableName = "person";
       var UpdatedData = person;
       UpdatedData.name = person.name + JSON.stringify(person.id);
-      sqlLiteServices.getData(tableName, (person.id)).then(function (data) {
-        alert('You select :' + JSON.stringify(data));
+      sqlLiteServices.getDataByAttribute(tableName,'id',(person.id)).then(function (data) {
+        alert('atrribute values : ' + JSON.stringify(data));
         sqlLiteServices.updateData(tableName, person.id, UpdatedData).then(function (data) {
-          alert('Success update ' + JSON.stringify(data));
           $scope.loadData();
         }, function (err) {
           alert('error : ' + JSON.stringify(err));

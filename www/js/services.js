@@ -74,6 +74,50 @@ angular.module('starter.services', [])
           });
         });
         return defer.promise;
+      },
+      getDataByAttribute : function(tableName,attribute,value){
+        var defer = $q.defer();
+        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db.transaction(function (tx) {
+          var query = "SELECT * FROM " + tableName + " WHERE ? = ?";
+          tx.executeSql(query, [attribute,value], function (tx, results) {
+            var len = results.rows.length;
+            var data = [];
+            for (var i = 0; i < len; i++) {
+              data.push(eval("(" + results.rows.item(i).data + ")"));
+            }
+            defer.resolve(data);
+          }, function (error) {
+            defer.reject(error);
+          });
+        });
+        return defer.promise;
+      },
+      dropTable : function(tableName){
+        var defer = $q.defer();
+        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db.transaction(function (tx) {
+          var query = "DROP TABLE " + tableName + ";";
+          tx.executeSql(query, [], function (tx) {
+            defer.resolve();
+          }, function (error) {
+            defer.reject(error);
+          });
+        });
+        return defer.promise;
+      },
+      dropDatabase : function(databaseName){
+        var defer = $q.defer();
+        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db.transaction(function (tx) {
+          var query = "DROP DATABASE " + databaseName + ";";
+          tx.executeSql(query, [], function (tx) {
+            defer.resolve();
+          }, function (error) {
+            defer.reject(error);
+          });
+        });
+        return defer.promise;
       }
     };
     return sqlLiteServices;
