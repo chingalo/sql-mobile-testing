@@ -53,8 +53,8 @@ angular.module('starter.services', [])
         var defer = $q.defer();
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
         db.transaction(function (tx) {
-          var query = "DELETE FROM " + tableName + " WHERE id = '"+id+" ';";
-          tx.executeSql(query, [], function (tx) {
+          var query = "DELETE FROM " + tableName + " WHERE id = ?;";
+          tx.executeSql(query, [id], function (tx) {
             defer.resolve();
           }, function (error) {
             defer.reject(error);
@@ -66,8 +66,8 @@ angular.module('starter.services', [])
         var defer = $q.defer();
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
         db.transaction(function (tx) {
-          var query = "UPDATE " + tableName + " SET data = ? WHERE id = '"+id+" ';";
-          tx.executeSql(query, [JSON.stringify(data)], function (tx,ru) {
+          var query = "UPDATE " + tableName + " SET data = ? WHERE id = ?;";
+          tx.executeSql(query, [JSON.stringify(data),id], function (tx,ru) {
             defer.resolve(ru);
           }, function (error) {
             defer.reject(error);

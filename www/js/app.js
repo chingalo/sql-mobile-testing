@@ -63,7 +63,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     $scope.delete = function (person) {
       var tableName = "person";
-      sqlLiteServices.deleteData(tableName, JSON.stringify(person.id)).then(function () {
+      sqlLiteServices.deleteData(tableName, person.id).then(function () {
         $scope.loadData();
       }, function (error) {
         alert('error : ' + JSON.stringify(error));
@@ -72,10 +72,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $scope.update = function (person) {
       var tableName = "person";
       var UpdatedData = person;
-      UpdatedData.name = person.name + JSON.stringify(person.id);
-      sqlLiteServices.getDataByAttribute(tableName,'id',JSON.stringify(person.id)).then(function (data) {
+      UpdatedData.name = person.name + person.id;
+      sqlLiteServices.getDataByAttribute(tableName,'id',person.id).then(function (data) {
         alert('attribute values : ' + JSON.stringify(data));
-        sqlLiteServices.updateData(tableName, JSON.stringify(person.id), UpdatedData).then(function (data) {
+        sqlLiteServices.updateData(tableName, person.id, UpdatedData).then(function (data) {
           $scope.loadData();
         }, function (err) {
           alert('error : ' + JSON.stringify(err));
