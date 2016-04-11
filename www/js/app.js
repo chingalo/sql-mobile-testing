@@ -22,11 +22,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         StatusBar.styleDefault();
       }
 
-
       document.addEventListener("deviceready", onDeviceReady, false);
       function onDeviceReady() {
+        alert('here')
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
-
         db.transaction(function (tx) {
           tx.executeSql('CREATE TABLE IF NOT EXISTS person (id TEXT primary key, data LONGTEXT)');
         });
