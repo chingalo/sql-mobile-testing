@@ -44,10 +44,10 @@ angular.module('starter.services', [])
         var counter = 0;
         data.forEach(function (dataVales) {
           if(counter ==0){
-            query = query+ "("+JSON.stringify(dataVales.id)+","+JSON.stringify(dataVales)+")";
+            query = query+ "("+JSON.stringify(dataVales.id)+",'"+JSON.stringify(dataVales)+"')";
           }
           else {
-            query = query + ",("+JSON.stringify(dataVales.id)+","+JSON.stringify(dataVales)+")";
+            query = query + ",("+JSON.stringify(dataVales.id)+",'"+JSON.stringify(dataVales)+"')";
           }
           counter ++;
 
