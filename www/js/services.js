@@ -36,6 +36,35 @@ angular.module('starter.services', [])
         });
         return defer.promise;
       },
+      insertBatchData:function(tableName,data) {
+        var defer = $q.defer();
+        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        var query = "INSERT OR REPLACE INTO " + tableName + " (id,data) VALUES";
+        var value = [];
+        var counter = 0;
+        data.forEach(function (dataVales) {
+          if(counter ==0){
+            query = "(?,?)";
+          }else {
+            query += ",(?,?)";
+          }
+          value.push(dataVales.id);
+          value.push(JSON.stringify(dataVales));
+        });
+        if(data.length > 0){
+          db.transaction(function (tx) {
+            tx.executeSql(query, value, function (tx, res) {
+              //success adding data
+              defer.resolve(res);
+            }, function (e) {
+              defer.reject(e);
+            });
+          });
+        }else{
+          defer.resolve();
+        }
+        return defer.promise;
+      },
       getDataById : function(tableName,id){
         var defer = $q.defer();
         db = window.sqlitePlugin.openDatabase({name: "my.db"});
