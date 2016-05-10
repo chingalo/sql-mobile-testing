@@ -45,10 +45,11 @@ angular.module('starter.services', [])
         data.forEach(function (dataVales) {
           if(counter ==0){
             query = "(?,?)";
-          }else {
-            query += ",(?,?)";
           }
-          value.push(dataVales.id);
+          //else {
+          //  query += ",(?,?)";
+          //}
+          value.push(JSON.stringify(dataVales.id));
           value.push(JSON.stringify(dataVales));
         });
         if(data.length > 0){
