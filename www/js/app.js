@@ -37,11 +37,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $scope.loadData = function () {
       insertBatchData();
       var tableName = "person";
-      sqlLiteServices.getAllData(tableName).then(function (data) {
-        $scope.dataLoaded = data;
-      }, function (error) {
-        alert('error : ' + JSON.stringify(error));
-      });
+      //sqlLiteServices.getAllData(tableName).then(function (data) {
+      //  $scope.dataLoaded = data;
+      //}, function (error) {
+      //  alert('error : ' + JSON.stringify(error));
+      //});
     };
     $scope.data = {};
     function insertBatchData() {
@@ -502,11 +502,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       ];
       var tableName = 'person';
-      sqlLiteServices.insertData(tableName, data).then(function (data) {
+      console.log('insertBatchData ' + data.length);
+      sqlLiteServices.insertBatchData(tableName, data).then(function (data) {
         alert("insertBatchData: " + JSON.stringify(data));
         $scope.data = {};
       }, function (error) {
-        alert('error : ' + JSON.stringify(error));
+        alert('error insertBatchData: ' + JSON.stringify(error));
 
       });
     }
