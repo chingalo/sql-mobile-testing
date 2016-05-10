@@ -44,17 +44,16 @@ angular.module('starter.services', [])
         var counter = 0;
         data.forEach(function (dataVales) {
           if(counter ==0){
-            query = "(?,?)";
+            query = "("+JSON.stringify(dataVales.id)+","+JSON.stringify(dataVales)+"?)";
           }
-          //else {
-          //  query += ",(?,?)";
-          //}
-          value.push(JSON.stringify(dataVales.id));
-          value.push(JSON.stringify(dataVales));
+          else {
+            query = ",("+","+"?)";
+          }
+          console.log(query);
         });
         if(data.length > 0){
           db.transaction(function (tx) {
-            tx.executeSql(query, value, function (tx, res) {
+            tx.executeSql(query,[], function (tx, res) {
               //success adding data
               defer.resolve(res);
             }, function (e) {
