@@ -61,6 +61,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       }, function (error) {
         alert('error : ' + JSON.stringify(error));
       });
+      count();
     };
     function count(){
       var tableName = "person";
@@ -530,7 +531,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
         ];
         var tableName = 'person';
         sqlLiteServices.insertBatchData(tableName, data).then(function (data) {
-          count();
           $scope.data = {};
         }, function (error) {
           alert('error insertBatchData: ' + JSON.stringify(error));
