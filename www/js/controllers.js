@@ -28,10 +28,35 @@ angular.module('starter.controllers', [])
     enableFriends: true,
     databaseName: ''
   };
-
   if(angular.isDefined($localStorage.databaseName)){
     $scope.settings.databaseName = $localStorage.databaseName;
   }
+
+  $scope.updateDatabaseName = function(){
+    if($scope.settings.databaseName != $localStorage.databaseName){
+      var dataBase = getDataBaseName();
+      $localStorage.databaseName = dataBase;
+      initDatabase(dataBase);
+    }
+  };
+
+  function initDatabase(dataBase){
+    console.log('new database name : ' + dataBase);
+    db = window.sqlitePlugin.openDatabase({name: dataBase});
+    db.transaction(function (tx) {
+      tx.executeSql('CREATE TABLE IF NOT EXISTS person (id TEXT primary key, data LONGTEXT)');
+    });
+  }
+  function getDataBaseName(){
+    var databaseName = $scope.settings.databaseName;
+    var dataBaseArray = databaseName.split('.');
+    if(dataBaseArray[dataBaseArray.length -1] != "db"){
+      databaseName = $scope.settings.databaseName + '.db';
+    }
+    return databaseName;
+  }
+
+
 
 
 });

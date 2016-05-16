@@ -3,7 +3,7 @@
     <ion-list>
 
       <label class="item item-input">
-        <input type="text" placeholder="Database name" ng-model="settings.databaseName">
+        <input type="text" placeholder="Database name" ng-model="settings.databaseName" ng-blur="updateDatabaseName()">
       </label>
     <ion-toggle  ng-model="settings.enableFriends">
         Enable Friends
