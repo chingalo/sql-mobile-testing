@@ -4,9 +4,21 @@ angular.module('starter.services', [])
   .factory('sqlLiteServices', function ($q,$localStorage) {
     var db = null;
     var sqlLiteServices = {
+      countRows : function(tableName){
+        var defer = $q.defer();
+        db = window.sqlitePlugin.openDatabase({name: $localStorage.databaseName});
+        db.transaction(function (tx) {
+          var query = "SELECT COUNT(*) FROM " + tableName + ";";
+          tx.executeSql(query, [], function (tx, results) {
+            defer.resolve(results);
+          }, function (error) {
+            defer.reject(error);
+          });
+        });
+        return defer.promise;
+      },
       getAllData: function (tableName) {
         var defer = $q.defer();
-        console.log($localStorage.databaseName);
         db = window.sqlitePlugin.openDatabase({name: $localStorage.databaseName});
         db.transaction(function (tx) {
           var query = "SELECT * FROM " + tableName + ";";

@@ -62,6 +62,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
         alert('error : ' + JSON.stringify(error));
       });
     };
+    function count(){
+      var tableName = "person";
+      sqlLiteServices.countRows(tableName)
+        .then(function(count){
+          console.log('Number of rows : ' + JSON.stringify(count));
+        },function(){})
+    }
     $scope.data = {};
     function insertBatchData() {
       if($localStorage.databaseName =='dataSet.db'){
@@ -523,7 +530,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
         ];
         var tableName = 'person';
         sqlLiteServices.insertBatchData(tableName, data).then(function (data) {
-          alert("insertBatchData: " + JSON.stringify(data));
+          count();
           $scope.data = {};
         }, function (error) {
           alert('error insertBatchData: ' + JSON.stringify(error));
