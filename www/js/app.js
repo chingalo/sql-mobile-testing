@@ -23,11 +23,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       }
 
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        console.log('start change state');
         $ionicLoading.show({
           template: '<i class="icon ion-loading-b"></i>'
         });
       });
       $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        console.log('end change state');
         $ionicLoading.hide();
       });
 
