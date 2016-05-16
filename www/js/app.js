@@ -35,6 +35,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
         db.transaction(function (tx) {
           tx.executeSql('CREATE TABLE IF NOT EXISTS person (id TEXT primary key, data LONGTEXT)');
         });
+        db.window.sqlitePlugin.closeDatabase({name: dataBase});
       }
     });
   })
