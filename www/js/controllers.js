@@ -23,8 +23,15 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope,$localStorage) {
   $scope.settings = {
-    enableFriends: true
+    enableFriends: true,
+    databaseName: ''
   };
+
+  if(angular.isDefined($localStorage.databaseName)){
+    $scope.settings.databaseName = $localStorage.databaseName;
+  }
+
+
 });

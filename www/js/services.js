@@ -1,12 +1,13 @@
 angular.module('starter.services', [])
 
 
-  .factory('sqlLiteServices', function ($q) {
+  .factory('sqlLiteServices', function ($q,$localStorage) {
     var db = null;
+    var databaseName = $localStorage.databaseName;
     var sqlLiteServices = {
       getAllData: function (tableName) {
         var defer = $q.defer();
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db = window.sqlitePlugin.openDatabase({name: databaseName});
         db.transaction(function (tx) {
           var query = "SELECT * FROM " + tableName + ";";
           tx.executeSql(query, [], function (tx, results) {
@@ -24,7 +25,7 @@ angular.module('starter.services', [])
       },
       insertData: function (tableName,id,data) {
         var defer = $q.defer();
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db = window.sqlitePlugin.openDatabase({name: databaseName});
         db.transaction(function (tx) {
           var query = "INSERT INTO " + tableName + " (id,data) VALUES (?,?)";
           tx.executeSql(query, [JSON.stringify(id),JSON.stringify(data)], function (tx, res) {
@@ -38,9 +39,8 @@ angular.module('starter.services', [])
       },
       insertBatchData:function(tableName,data) {
         var defer = $q.defer();
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db = window.sqlitePlugin.openDatabase({name: databaseName});
         var query = "INSERT OR REPLACE INTO " + tableName + " (id,data) VALUES";
-        var value = [];
         var counter = 0;
         data.forEach(function (dataVales) {
           if(counter ==0){
@@ -52,7 +52,6 @@ angular.module('starter.services', [])
           counter ++;
 
         });
-        console.log(query);
         if(data.length > 0){
           db.transaction(function (tx) {
             tx.executeSql(query,[], function (tx, res) {
@@ -69,7 +68,7 @@ angular.module('starter.services', [])
       },
       getDataById : function(tableName,id){
         var defer = $q.defer();
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db = window.sqlitePlugin.openDatabase({name: databaseName});
         db.transaction(function (tx) {
           var query = "SELECT * FROM " + tableName + " WHERE id = ?;";
           tx.executeSql(query, [id], function (tx, results) {
@@ -82,7 +81,7 @@ angular.module('starter.services', [])
       },
       deleteDataByAttribute : function(tableName,attribute,value){
         var defer = $q.defer();
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db = window.sqlitePlugin.openDatabase({name: databaseName});
         db.transaction(function (tx) {
           var query = "DELETE FROM " + tableName + " WHERE "+attribute+" = ?";
           tx.executeSql(query, [value], function (tx) {
@@ -95,7 +94,7 @@ angular.module('starter.services', [])
       },
       updateDataByAttribute : function(tableName,attribute,value,data){
         var defer = $q.defer();
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db = window.sqlitePlugin.openDatabase({name: databaseName});
         db.transaction(function (tx) {
           var query = "UPDATE " + tableName + " SET data = ?  WHERE "+attribute+" = ?";
           tx.executeSql(query, [JSON.stringify(data),value], function (tx,ru) {
@@ -108,7 +107,7 @@ angular.module('starter.services', [])
       },
       getDataByAttribute : function(tableName,attribute,value){
         var defer = $q.defer();
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db = window.sqlitePlugin.openDatabase({name: databaseName});
         db.transaction(function (tx) {
           var query = "SELECT * FROM " + tableName + " WHERE "+attribute+" = ?";
           tx.executeSql(query, [value], function (tx, results) {
@@ -126,7 +125,7 @@ angular.module('starter.services', [])
       },
       dropTable : function(tableName){
         var defer = $q.defer();
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        db = window.sqlitePlugin.openDatabase({name: databaseName});
         db.transaction(function (tx) {
           var query = "DROP TABLE " + tableName + ";";
           tx.executeSql(query, [], function (tx) {

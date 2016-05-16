@@ -6,9 +6,9 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 var db = null;
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngStorage'])
 
-  .run(function ($ionicPlatform) {
+  .run(function ($ionicPlatform,$localStorage) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -21,11 +21,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+      var dataBase = "person.db";
+      if(angular.isUndefined($localStorage.databaseName)){
+        $localStorage.databaseName = dataBase;
+      }else{
+        dataBase = $localStorage.databaseName;
+      }
 
       document.addEventListener("deviceready", onDeviceReady, false);
       function onDeviceReady() {
-        alert('here')
-        db = window.sqlitePlugin.openDatabase({name: "my.db"});
+        console.log('data base name : ' + dataBase);
+        db = window.sqlitePlugin.openDatabase({name: dataBase});
         db.transaction(function (tx) {
           tx.executeSql('CREATE TABLE IF NOT EXISTS person (id TEXT primary key, data LONGTEXT)');
         });
@@ -33,6 +39,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     });
   })
   .controller('mainCtr', function ($scope, sqlLiteServices) {
+
     $scope.dataLoaded = [];
     $scope.loadData = function () {
       insertBatchData();
