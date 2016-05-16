@@ -48,7 +48,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       }
     });
   })
-  .controller('mainCtr', function ($scope, sqlLiteServices) {
+  .controller('mainCtr', function ($scope, sqlLiteServices,$localStorage) {
 
     $scope.dataLoaded = [];
     $scope.loadData = function () {
